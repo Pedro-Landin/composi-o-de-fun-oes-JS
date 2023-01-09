@@ -1,6 +1,9 @@
-function composicao(fn1, fn2, fn3){
+function composicao(...funcoes){
+    // conceito currying e (lazy eval.)
     return function(valor){
-        return fn3(fn2(fn1(valor)))
+        return funcoes.reduce((acc, fn) => {
+           return fn(acc)
+        }, valor)
     }
 }
 
@@ -22,5 +25,16 @@ const exagerado = composicao(
     tornarLento
 )
 
+const quaseExagerado = composicao(
+    gritar,
+    enfatizar
+)
+
 console.log(exagerado('cuidado com o buraco'))
-console.log(exagerado('para'))
+console.log(quaseExagerado('para'))
+
+console.log(composicao(
+    gritar,
+    enfatizar,
+    tornarLento
+)('eita'))
